@@ -1,0 +1,30 @@
+.container {
+  padding: 30px;
+  border-radius: 10px;
+  background-color: rebeccapurple;
+  color: white;
+  height: fit-content;
+  max-height: 400px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.name {
+  font-size: 36px;
+  margin: 0px;
+  margin-bottom: 30px;
+}
+
+.label {
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.info {
+  font-size: 16px;
+  margin: 3px 0px;
+}

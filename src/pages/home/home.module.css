@@ -1,0 +1,10 @@
+.page {
+  max-width: 900px;
+  margin: auto;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+}

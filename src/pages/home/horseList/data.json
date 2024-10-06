@@ -1,0 +1,11 @@
+{
+  "id": "5bb04e04-5698-4237-a1c7-d2eb285c5d51",
+  "name": "Thunderdash",
+  "profile": {
+    "favouriteFood": "Hot Chips",
+    "physical": {
+      "height": 200,
+      "weight": 450
+    }
+  }
+}
