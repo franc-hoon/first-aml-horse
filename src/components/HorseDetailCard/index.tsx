@@ -1,41 +1,52 @@
 import { useContext } from "react";
 import styles from "./horseDetailCard.module.css";
 import HorsesContext from "../../context/HorsesContext";
+import DetailItem from "./DetailItem";
 
-interface Props {
-  selectedHorse: string | undefined;
-}
-
-function HorseDetailCard({ selectedHorse }: Props) {
+function HorseDetailCard() {
   const horsesContext = useContext(HorsesContext);
 
   if (!horsesContext) {
     throw new Error("handle error");
   }
 
-  const { dataArray } = horsesContext;
+  const { selectedHorse } = horsesContext;
 
-  const horseDetails = dataArray.find((horse) => horse.id === selectedHorse);
-
-  return (
+  const renderEmptyCard = () => (
     <div className={styles.container}>
-      <h3 className={styles.name}>{horseDetails?.name}</h3>
+      <p>Select a horse from the list.</p>
+    </div>
+  );
+
+  const renderDetailCard = () => (
+    <div className={styles.container}>
+      <h3 className={styles.name}>{selectedHorse?.name}</h3>
       <div className={styles.content}>
-        <div>
-          <label className={styles.label}>Favourite Food</label>
-          <p className={styles.info}>{horseDetails?.profile.favouriteFood}</p>
-        </div>
-        <div>
-          <label className={styles.label}>Height</label>
-          <p className={styles.info}>{horseDetails?.profile.physical.height}</p>
-        </div>
-        <div>
-          <label className={styles.label}>Weight</label>
-          <p className={styles.info}>{horseDetails?.profile.physical.weight}</p>
-        </div>
+        <DetailItem
+          label="Favourite Food"
+          value={selectedHorse?.profile?.favouriteFood}
+        />
+        <DetailItem
+          label="Height"
+          value={
+            selectedHorse?.profile?.physical?.height
+              ? `${selectedHorse.profile.physical.height} cm`
+              : undefined
+          }
+        />
+        <DetailItem
+          label="Weight"
+          value={
+            selectedHorse?.profile?.physical?.weight
+              ? `${selectedHorse.profile.physical.weight} kg`
+              : undefined
+          }
+        />
       </div>
     </div>
   );
+
+  return selectedHorse ? renderDetailCard() : renderEmptyCard();
 }
 
 export default HorseDetailCard;

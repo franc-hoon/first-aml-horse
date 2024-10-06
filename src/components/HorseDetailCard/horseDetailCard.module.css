@@ -1,7 +1,7 @@
 .container {
   padding: 30px;
   border-radius: 10px;
-  background-color: rebeccapurple;
+  background-color: #6f5da5;
   color: white;
   height: fit-content;
   max-height: 400px;
@@ -25,6 +25,6 @@
 }
 
 .info {
-  font-size: 16px;
+  font-size: 24px;
   margin: 3px 0px;
 }

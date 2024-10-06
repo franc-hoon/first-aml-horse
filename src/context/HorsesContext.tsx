@@ -8,8 +8,8 @@ import React, {
 import { Horse } from "../clients/horsesClient";
 
 interface HorsesContextType {
-  dataArray: Horse[];
-  setDataArray: Dispatch<SetStateAction<Horse[]>>;
+  selectedHorse: Horse | undefined;
+  setSelectedHorse: Dispatch<SetStateAction<Horse | undefined>>;
 }
 
 const HorsesContext = createContext<HorsesContextType | undefined>(undefined);
@@ -19,10 +19,12 @@ interface DataProviderProps {
 }
 
 export const HorsesProvider: React.FC<DataProviderProps> = ({ children }) => {
-  const [dataArray, setDataArray] = useState<Horse[]>([]);
+  const [selectedHorse, setSelectedHorse] = useState<Horse | undefined>(
+    undefined
+  );
 
   return (
-    <HorsesContext.Provider value={{ dataArray, setDataArray }}>
+    <HorsesContext.Provider value={{ selectedHorse, setSelectedHorse }}>
       {children}
     </HorsesContext.Provider>
   );

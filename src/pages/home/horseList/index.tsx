@@ -1,31 +1,16 @@
-import { useContext, useEffect } from "react";
 import HorseCard from "../../../components/HorseListCard";
 import styles from "./horseList.module.css";
-import data from "./data.json";
-import HorsesContext from "../../../context/HorsesContext";
+import { Horse } from "../../../clients/horsesClient";
 
 interface Props {
-  setSelectedHorse: (id: string) => void;
+  horses: Horse[];
 }
 
-function List({ setSelectedHorse }: Props) {
-  const horsesContext = useContext(HorsesContext);
+function List({ horses }: Props) {
+  const renderHorseList = () =>
+    horses.map((horse) => <HorseCard key={horse.id} horseDetails={horse} />);
 
-  if (!horsesContext) {
-    throw new Error("handle error");
-  }
-
-  const { setDataArray } = horsesContext;
-
-  useEffect(() => {
-    setDataArray([data]);
-  }, []);
-
-  return (
-    <div className={styles.container}>
-      <HorseCard horseDetails={data} setSelectedHorse={setSelectedHorse} />
-    </div>
-  );
+  return <div className={styles.container}>{renderHorseList()}</div>;
 }
 
 export default List;

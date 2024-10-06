@@ -1,17 +1,27 @@
+import { useContext } from "react";
 import { Horse } from "../../clients/horsesClient";
 import styles from "./horseListCard.module.css";
+import HorsesContext from "../../context/HorsesContext";
 
 interface Props {
   horseDetails: Horse;
-  setSelectedHorse: (id: string) => void;
 }
 
-function HorseCard({ horseDetails, setSelectedHorse }: Props) {
-  const { id, name } = horseDetails;
+function HorseCard({ horseDetails }: Props) {
+  const horsesContext = useContext(HorsesContext);
+
+  if (!horsesContext) {
+    throw new Error("handle error");
+  }
+
+  const { setSelectedHorse } = horsesContext;
 
   return (
-    <div className={styles.container} onClick={() => setSelectedHorse(id)}>
-      {name}
+    <div
+      className={styles.container}
+      onClick={() => setSelectedHorse(horseDetails)}
+    >
+      {horseDetails.name}
     </div>
   );
 }
