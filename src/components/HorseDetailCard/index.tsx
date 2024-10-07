@@ -84,7 +84,7 @@ function HorseDetailCard({ horses, setHorses }: Props) {
           value={
             _horseDetails.profile?.physical?.height
               ? `${_horseDetails.profile.physical.height}`
-              : undefined
+              : null
           }
           updateHorseDetail={(val: string) =>
             setHorseDetails({
@@ -106,7 +106,7 @@ function HorseDetailCard({ horses, setHorses }: Props) {
           value={
             _horseDetails.profile?.physical?.weight
               ? `${_horseDetails.profile.physical.weight}`
-              : undefined
+              : null
           }
           updateHorseDetail={(val: string) =>
             setHorseDetails({

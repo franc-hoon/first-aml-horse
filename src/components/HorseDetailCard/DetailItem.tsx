@@ -2,7 +2,7 @@ import styles from "./horseDetailCard.module.css";
 
 interface Props {
   label: string;
-  value: string | undefined;
+  value: string | undefined | null;
   isEditMode: boolean;
   ariaLabel: string;
   updateHorseDetail: (val: string) => void;
@@ -15,9 +15,12 @@ function DetailItem({
   ariaLabel,
   updateHorseDetail,
 }: Props) {
-  if (!value) return null;
+  if (value === undefined) return null;
 
   const getValueString = () => {
+    if (value == null) {
+      return "N/A";
+    }
     if (label === "Height") {
       return `${value} cm`;
     }
@@ -33,7 +36,7 @@ function DetailItem({
       {isEditMode ? (
         <input
           className={styles.info}
-          value={value}
+          value={value || ""}
           onChange={(event) => updateHorseDetail(event.target.value)}
           aria-label={ariaLabel}
         />
