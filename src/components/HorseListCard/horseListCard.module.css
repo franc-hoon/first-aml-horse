@@ -5,3 +5,8 @@
   color: white;
   cursor: pointer;
 }
+
+.container:nth-child(even) {
+  background-color: #c3c2d4;
+  color: black;
+}

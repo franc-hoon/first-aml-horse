@@ -24,7 +24,33 @@
   font-size: 12px;
 }
 
+.detailItem {
+  display: flex;
+  flex-direction: column;
+}
+
 .info {
   font-size: 24px;
   margin: 3px 0px;
+}
+
+.nameInput {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.button {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }

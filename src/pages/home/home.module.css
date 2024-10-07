@@ -1,10 +1,19 @@
 .page {
+  height: calc(100vh - 60px);
+  padding: 30px;
   max-width: 900px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 30px;
+  flex: 1;
+}
+
+.title {
+  margin-bottom: 30px;
 }

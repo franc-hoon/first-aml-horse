@@ -25,13 +25,13 @@ function Home() {
 
   return (
     <div className={styles.page}>
-      <h1>Horses</h1>
+      <h1 className={styles.title}>Horses</h1>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div className={styles.content}>
           <List horses={horses} />
-          <HorseDetailCard />
+          <HorseDetailCard horses={horses} setHorses={setHorses} />
         </div>
       )}
     </div>

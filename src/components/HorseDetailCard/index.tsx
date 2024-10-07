@@ -1,16 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./horseDetailCard.module.css";
 import HorsesContext from "../../context/HorsesContext";
 import DetailItem from "./DetailItem";
+import { Horse, updateHorse } from "../../clients/horsesClient";
 
-function HorseDetailCard() {
+interface Props {
+  horses: Horse[];
+  setHorses: (horses: Horse[]) => void;
+}
+
+function HorseDetailCard({ horses, setHorses }: Props) {
+  const [horseDetails, setHorseDetails] = useState<Horse | undefined>(
+    undefined
+  );
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const horsesContext = useContext(HorsesContext);
-
   if (!horsesContext) {
     throw new Error("handle error");
   }
-
   const { selectedHorse } = horsesContext;
+
+  useEffect(() => {
+    setHorseDetails(selectedHorse);
+  }, [selectedHorse]);
 
   const renderEmptyCard = () => (
     <div className={styles.container}>
@@ -18,35 +31,115 @@ function HorseDetailCard() {
     </div>
   );
 
-  const renderDetailCard = () => (
+  const onSave = async () => {
+    if (!horseDetails) {
+      return;
+    }
+
+    try {
+      const updatedHorse = await updateHorse(horseDetails.id, horseDetails);
+      setHorses(
+        horses.map((horse) =>
+          horse.id === updatedHorse.id ? updatedHorse : horse
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsEditMode(false);
+    }
+  };
+
+  const renderDetailCard = (_horseDetails: Horse) => (
     <div className={styles.container}>
-      <h3 className={styles.name}>{selectedHorse?.name}</h3>
+      {isEditMode ? (
+        <input
+          className={styles.nameInput}
+          value={_horseDetails.name}
+          onChange={(event) =>
+            setHorseDetails({ ..._horseDetails, name: event.target.value })
+          }
+        />
+      ) : (
+        <h3 className={styles.name}>{_horseDetails.name}</h3>
+      )}
       <div className={styles.content}>
         <DetailItem
           label="Favourite Food"
-          value={selectedHorse?.profile?.favouriteFood}
+          value={_horseDetails.profile?.favouriteFood}
+          updateHorseDetail={(val: string) =>
+            setHorseDetails({
+              ..._horseDetails,
+              profile: {
+                ..._horseDetails.profile,
+                favouriteFood: val,
+              },
+            })
+          }
+          isEditMode={isEditMode}
+          ariaLabel="food-input"
         />
         <DetailItem
           label="Height"
           value={
-            selectedHorse?.profile?.physical?.height
-              ? `${selectedHorse.profile.physical.height} cm`
+            _horseDetails.profile?.physical?.height
+              ? `${_horseDetails.profile.physical.height}`
               : undefined
           }
+          updateHorseDetail={(val: string) =>
+            setHorseDetails({
+              ..._horseDetails,
+              profile: {
+                ..._horseDetails.profile,
+                physical: {
+                  ..._horseDetails.profile.physical,
+                  height: parseInt(val, 10),
+                },
+              },
+            })
+          }
+          isEditMode={isEditMode}
+          ariaLabel="height-input"
         />
         <DetailItem
           label="Weight"
           value={
-            selectedHorse?.profile?.physical?.weight
-              ? `${selectedHorse.profile.physical.weight} kg`
+            _horseDetails.profile?.physical?.weight
+              ? `${_horseDetails.profile.physical.weight}`
               : undefined
           }
+          updateHorseDetail={(val: string) =>
+            setHorseDetails({
+              ..._horseDetails,
+              profile: {
+                ..._horseDetails.profile,
+                physical: {
+                  ..._horseDetails.profile.physical,
+                  weight: parseInt(val, 10),
+                },
+              },
+            })
+          }
+          isEditMode={isEditMode}
+          ariaLabel="weight-input"
         />
+      </div>
+      <div className={styles.buttonContainer}>
+        {isEditMode ? (
+          <button className={styles.button} onClick={onSave}>
+            Save
+          </button>
+        ) : (
+          <button className={styles.button} onClick={() => setIsEditMode(true)}>
+            Edit
+          </button>
+        )}
+        {/* <button className={styles.button}>Compare</button> */}
       </div>
     </div>
   );
 
-  return selectedHorse ? renderDetailCard() : renderEmptyCard();
+  return horseDetails ? renderDetailCard(horseDetails) : renderEmptyCard();
 }
 
 export default HorseDetailCard;
