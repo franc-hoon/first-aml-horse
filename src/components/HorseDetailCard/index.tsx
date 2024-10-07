@@ -126,7 +126,11 @@ function HorseDetailCard({ horses, setHorses }: Props) {
       </div>
       <div className={styles.buttonContainer}>
         {isEditMode ? (
-          <button className={styles.button} onClick={onSave}>
+          <button
+            className={styles.button}
+            onClick={onSave}
+            disabled={!!!horseDetails?.name}
+          >
             Save
           </button>
         ) : (
